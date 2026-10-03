@@ -16,9 +16,9 @@ resource "aws_s3_bucket_ownership_controls" "private_frontend_ownership_controls
 resource "aws_s3_bucket_public_access_block" "private_frontend_public_access_block" {
   bucket = aws_s3_bucket.private_frontend_bucket.id
 
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
+  block_public_acls = true
+  block_public_policy = true
+  ignore_public_acls = true
   restrict_public_buckets = true
 }
 
@@ -29,4 +29,13 @@ resource "aws_s3_object" "private_frontend_files" {
   for_each = fileset("${path.module}/front-end/", "**")
   key = each.value
   source = "${path.module}/front-end/${each.value}"
+}
+
+# Create CloudFront Origin Access Control
+resource "aws_cloudfront_origin_access_control" "private_frontend_oac" {
+  name = "private-frontend-oac"
+
+  origin_access_control_origin_type = "s3"
+  signing_behavior = "always"
+  signing_protocol = "sigv4"
 }
