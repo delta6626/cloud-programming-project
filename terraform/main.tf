@@ -39,3 +39,33 @@ resource "aws_cloudfront_origin_access_control" "private_frontend_oac" {
   signing_behavior = "always"
   signing_protocol = "sigv4"
 }
+
+# Create the CloudFront CDN
+resource "aws_cloudfront_distribution" "private_frontend_distribution" {
+  enabled = true
+
+  origin {
+    domain_name = aws_s3_bucket.private_frontend_bucket.bucket_regional_domain_name
+    origin_id = aws_s3_bucket.private_frontend_bucket.id
+    origin_access_control_id = aws_cloudfront_origin_access_control.private_frontend_oac.id
+  }
+
+  default_cache_behavior {
+    allowed_methods = ["GET", "HEAD"]
+    cached_methods = ["GET", "HEAD"]
+    target_origin_id = aws_s3_bucket.private_frontend_bucket.id
+    viewer_protocol_policy = "redirect-to-https"
+  }
+
+  default_root_object = "index.html"
+
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
+    }
+  }
+
+  viewer_certificate {
+    cloudfront_default_certificate = true
+  }
+}
