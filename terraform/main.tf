@@ -55,6 +55,13 @@ resource "aws_cloudfront_distribution" "private_frontend_distribution" {
     cached_methods = ["GET", "HEAD"]
     target_origin_id = aws_s3_bucket.private_frontend_bucket.id
     viewer_protocol_policy = "redirect-to-https"
+
+    forwarded_values {
+      query_string = false
+      cookies {
+        forward = "none"
+      }
+    }
   }
 
   default_root_object = "index.html"
