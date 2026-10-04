@@ -70,6 +70,7 @@ resource "aws_cloudfront_distribution" "private_frontend_distribution" {
   }
 }
 
+# Configure the access policy for the S3 bucket 
 resource "aws_s3_bucket_policy" "private_frontend_bucket_policy" {
   bucket = aws_s3_bucket.private_frontend_bucket.id
 
