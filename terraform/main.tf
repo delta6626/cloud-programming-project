@@ -29,6 +29,7 @@ resource "aws_s3_object" "private_frontend_files" {
   for_each = fileset("${path.module}/front-end/", "**")
   key = each.value
   source = "${path.module}/front-end/${each.value}"
+  content_type = "text/html"
 }
 
 # Create CloudFront Origin Access Control
