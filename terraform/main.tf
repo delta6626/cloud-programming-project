@@ -30,8 +30,8 @@ resource "aws_s3_object" "private_frontend_files" {
   key = each.value
   source = "${path.module}/front-end/${each.value}"
 
-  # Since the front end only has an index.html for the sake 
-  # of this project, it is safe to set content_type to text/html
+  # Since the front end only has an index.html for this
+  # project, it is safe to set content_type to text/html
   content_type = "text/html"
 }
 
