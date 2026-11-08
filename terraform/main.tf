@@ -3,7 +3,7 @@ resource "aws_s3_bucket" "private_frontend_bucket" {
   bucket = "private-s3-bucket-for-website-mahamudul-hasan-9213772"
 }
 
-# Set the bucket object's ownsership controls
+# Set the bucket object's ownership controls
 resource "aws_s3_bucket_ownership_controls" "private_frontend_ownership_controls" {
   bucket = aws_s3_bucket.private_frontend_bucket.id
   
