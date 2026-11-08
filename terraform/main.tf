@@ -1,6 +1,6 @@
 # Create the S3 bucket
 resource "aws_s3_bucket" "private_frontend_bucket" {
-  bucket = "private-s3-bucket-for-website-mahamudul-hasan-9213772"
+  bucket = var.bucket_name
 }
 
 # Set the bucket object's ownership controls
@@ -37,7 +37,7 @@ resource "aws_s3_object" "private_frontend_files" {
 
 # Create CloudFront Origin Access Control
 resource "aws_cloudfront_origin_access_control" "private_frontend_oac" {
-  name = "private-frontend-oac"
+  name = var.oac_name
 
   origin_access_control_origin_type = "s3"
   signing_behavior = "always"
